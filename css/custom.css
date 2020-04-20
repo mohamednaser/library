@@ -22,3 +22,7 @@
   font-weight: bolder;
   display: inline-block;
 }
+
+.card{
+  margin: 5px;
+}
