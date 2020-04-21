@@ -67,10 +67,10 @@ class customFirebase {
   }
 
   createBook(authorName, title, description, pagesNumber, isRead) {
-    const current_time = new Date().getTime();
+    const currentTime = new Date().getTime();
     firebase
       .database()
-      .ref(`Books/${current_time}`)
+      .ref(`Books/${currentTime}`)
       .set({
         Author_name: authorName,
         Title: title,
@@ -90,8 +90,6 @@ class customFirebase {
   }
 
   removeBook(bookid) {
-    console.log('remove book', bookid);
-
     firebase
       .database()
       .ref(`Books/${bookid}`)
