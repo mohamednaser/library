@@ -10,14 +10,12 @@ class customFirebase {
       messagingSenderId: "386902349801",
       appId: "1:386902349801:web:34886ae783e0a98b809d78",
     };
-    console.log("initalize firebase");
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   }
 
   listBooks() {
     const booksList = document.getElementById("books-list");
-    booklist.innerHTML = "";
     const dbRefObject = firebase.database().ref().child("Books");
     dbRefObject.on("value", (snap) => {
       let books = snap.val();
@@ -25,7 +23,6 @@ class customFirebase {
 
       let bookDetails;
       for (const key of keys) {
-        console.log(bookDetails);
         bookDetails = books[key];
         var cardDetail = "";
         cardDetail += "<div class='card' style='width: 18rem;'>";
@@ -37,11 +34,31 @@ class customFirebase {
           "</h6>";
         cardDetail += " <p class='card-text'>";
         cardDetail += bookDetails.Description;
+        cardDetail += "<br><br>";
+        cardDetail +=
+          " Number Of Pages :  <span class= 'badge badge-secondary'>" +
+          bookDetails.Number_pages +
+          "</span>";
         cardDetail += "</p>";
-        cardDetail += "<span onclick='updateBook("+key+")'class='card-link'>";
-        cardDetail += "readed";
-        cardDetail += " </span>";
-        cardDetail += bookDetails.Number_pages + " page";
+        if (bookDetails.isRead)
+          cardDetail += "<span class='text-success'>readed</span>";
+        else cardDetail += "<span class='text-danger'> not readed  </span>";
+
+        cardDetail += "<br>";
+        cardDetail +=
+          "<button onclick='updateBook(" +
+          key +
+          "," +
+          !bookDetails.isRead +
+          ")'class='btn btn-success'>";
+        cardDetail += "Change Status";
+
+        cardDetail += " </button>";
+        cardDetail +=
+          "<button onclick='removeBook(" + key + ")'class='btn btn-danger'>";
+        cardDetail += "Remove";
+
+        cardDetail += " </button>";
         cardDetail += "</div>";
         cardDetail += "</div>";
 
@@ -51,7 +68,6 @@ class customFirebase {
   }
 
   createBook(authorName, title, description, pagesNumber, isRead) {
-    console.log("create new book");
     const current_time = new Date().getTime();
     firebase
       .database()
@@ -63,20 +79,27 @@ class customFirebase {
         Description: description,
         isRead: isRead,
       });
+    document.getElementById("books-list").innerHTML = " ";
+    this.listBooks();
   }
 
-  updateBook(bookid){
-  
+  updateBook(bookid, status) {
+    firebase.database().ref("Books").child(bookid).update({ isRead: status });
+
+    document.getElementById("books-list").innerHTML = " ";
+    this.listBooks();
+  }
+
+  removeBook(bookid) {
+    console.log("remove book", bookid);
+
     firebase
       .database()
-      .ref("Books")
-      .child(bookid)
-      .update({Author_name: 'PETER'});
-
-    console.log("inside")
+      .ref("Books/" + bookid)
+      .remove();
+    document.getElementById("books-list").innerHTML = " ";
+    this.listBooks();
   }
-
-
 }
 
 export default customFirebase;
