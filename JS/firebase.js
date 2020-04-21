@@ -37,9 +37,9 @@ class customFirebase {
         cardDetail += " <p class='card-text'>";
         cardDetail += bookDetails.Description;
         cardDetail += "</p>";
-        cardDetail += "<a href='#' class='card-link'>";
+        cardDetail += "<span onclick='updateBook("+key+")'class='card-link'>";
         cardDetail += "readed";
-        cardDetail += " </a>";
+        cardDetail += " </span>";
         cardDetail += bookDetails.Number_pages + " page";
         cardDetail += "</div>";
         cardDetail += "</div>";
@@ -63,6 +63,19 @@ class customFirebase {
         isRead: isRead,
       });
   }
+
+  updateBook(bookid){
+  
+    firebase
+      .database()
+      .ref("Books")
+      .child(bookid)
+      .update({Author_name: 'PETER'});
+
+    console.log("inside")
+  }
+
+
 }
 
 export default customFirebase;
