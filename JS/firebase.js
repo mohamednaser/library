@@ -17,6 +17,7 @@ class customFirebase {
 
   listBooks() {
     const booksList = document.getElementById("books-list");
+    booklist.innerHTML = "";
     const dbRefObject = firebase.database().ref().child("Books");
     dbRefObject.on("value", (snap) => {
       let books = snap.val();
