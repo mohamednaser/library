@@ -2,54 +2,54 @@ class customFirebase {
   // Your web app's Firebase configuration
   constructor() {
     const firebaseConfig = {
-      apiKey: "AIzaSyCZTPTRei9rvurD925X8A352YhL5O414WQ",
-      authDomain: "actual-upd.firebaseapp.com",
-      databaseURL: "https://actual-upd.firebaseio.com",
-      projectId: "actual-upd",
-      storageBucket: "actual-upd.appspot.com",
-      messagingSenderId: "386902349801",
-      appId: "1:386902349801:web:34886ae783e0a98b809d78",
+      apiKey: 'AIzaSyCZTPTRei9rvurD925X8A352YhL5O414WQ',
+      authDomain: 'actual-upd.firebaseapp.com',
+      databaseURL: 'https://actual-upd.firebaseio.com',
+      projectId: 'actual-upd',
+      storageBucket: 'actual-upd.appspot.com',
+      messagingSenderId: '386902349801',
+      appId: '1:386902349801:web:34886ae783e0a98b809d78',
     };
     // Initialize Firebase
-    /*global initializeApp, firebase*/
+    /* global firebase */
     firebase.initializeApp(firebaseConfig);
   }
 
   listBooks() {
-    const booksList = document.getElementById("books-list");
-    const dbRefObject = firebase.database().ref().child("Books");
-    dbRefObject.on("value", (snap) => {
+    this.a = 'hi';
+    const booksList = document.getElementById('books-list');
+    const dbRefObject = firebase.database().ref().child('Books');
+    dbRefObject.on('value', (snap) => {
       const books = snap.val();
       const keys = Object.keys(books);
 
       let bookDetails;
       for (const key of keys) {
         bookDetails = books[key];
-        let cardDetail = "";
+        let cardDetail = '';
         cardDetail += "<div class='card' style='width: 18rem;'>";
         cardDetail += "<div class='card-body'>";
         cardDetail += `<h5 class='card-title'>${bookDetails.Title}</h5>`;
         cardDetail += `<h6 class='card-subtitle mb-2 text-muted'>${bookDetails.Author_name}</h6>`;
         cardDetail += " <p class='card-text'>";
         cardDetail += bookDetails.Description;
-        cardDetail += "<br><br>";
+        cardDetail += '<br><br>';
         cardDetail += ` Number Of Pages :  <span class= 'badge badge-secondary'>${bookDetails.Number_pages}</span>`;
-        cardDetail += "</p>";
-        if (bookDetails.isRead)
-          cardDetail += "<span class='text-success'>readed</span>";
+        cardDetail += '</p>';
+        if (bookDetails.isRead) cardDetail += "<span class='text-success'>readed</span>";
         else cardDetail += "<span class='text-danger'> not readed  </span>";
 
-        cardDetail += "<br>";
+        cardDetail += '<br>';
         cardDetail += `<button onclick='updateBook(${key},${!bookDetails.isRead})'class='btn btn-success'>`;
-        cardDetail += "Change Status";
+        cardDetail += 'Change Status';
 
-        cardDetail += " </button>";
+        cardDetail += ' </button>';
         cardDetail += `<button onclick='removeBook(${key})'class='btn btn-danger ml-2'>`;
-        cardDetail += "Remove";
+        cardDetail += 'Remove';
 
-        cardDetail += " </button>";
-        cardDetail += "</div>";
-        cardDetail += "</div>";
+        cardDetail += ' </button>';
+        cardDetail += '</div>';
+        cardDetail += '</div>';
 
         booksList.innerHTML += cardDetail;
       }
@@ -65,20 +65,20 @@ class customFirebase {
       Description: description,
       isRead,
     });
-    document.getElementById("books-list").innerHTML = " ";
+    document.getElementById('books-list').innerHTML = ' ';
     this.listBooks();
   }
 
   updateBook(bookid, status) {
-    firebase.database().ref("Books").child(bookid).update({ isRead: status });
+    firebase.database().ref('Books').child(bookid).update({ isRead: status });
 
-    document.getElementById("books-list").innerHTML = " ";
+    document.getElementById('books-list').innerHTML = ' ';
     this.listBooks();
   }
 
   removeBook(bookid) {
     firebase.database().ref(`Books/${bookid}`).remove();
-    document.getElementById("books-list").innerHTML = " ";
+    document.getElementById('books-list').innerHTML = ' ';
     this.listBooks();
   }
 }
