@@ -55,7 +55,7 @@ class customFirebase {
 
         cardDetail += " </button>";
         cardDetail +=
-          "<button onclick='removeBook(" + key + ")'class='btn btn-danger'>";
+          "<button onclick='removeBook(" + key + ")'class='btn btn-danger ml-2'>";
         cardDetail += "Remove";
 
         cardDetail += " </button>";
