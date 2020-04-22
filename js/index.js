@@ -18,19 +18,9 @@ class customFirebase {
   listBooks() {
     const dbRefObject = firebase.database().ref().child("Books");
     dbRefObject.once("value", (snap) => {
-      if (snap){
-        console.log("true");
-        // do something
-      }
-      else {
-        console.log("false");
-        
-      }
       this.myLibrary = snap.val();
-      console.log('lisbooks' , this.myLibrary , snap.val);
+      this.render();
     });
-    console.log('lisbooks  outside' , this.myLibrary);
-
   }
 
   createBook(authorName, title, description, pagesNumber, isRead) {
