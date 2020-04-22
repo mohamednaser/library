@@ -143,11 +143,12 @@
     </div>
 
     <script type="module">
-      import customFirebase from "./JS/firebase.js";
+      import customFirebase from "./js/index.js";
 
       var firebaseObject = new customFirebase();
       window.firebaseObject = firebaseObject;
       firebaseObject.listBooks();
+      firebaseObject.render();
     </script>
     <script>
       function createBook() {
